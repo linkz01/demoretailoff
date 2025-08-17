@@ -13,17 +13,19 @@ pipeline {
         bat 'mvn -B -q checkstyle:check spotbugs:check'
       }
     }
-    stage('Build & Test') {
-      steps {
-        bat 'mvn -B clean verify'
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true, onlyIfSuccessful: true
-        }
-      }
+ stage('Build & Test') {
+  steps {
+    bat 'mvn -B clean verify'
+  }
+  post {
+    always {
+      junit testResults: '**/target/surefire-reports/*.xml',
+            allowEmptyResults: true,
+            keepLongStdio: true
+      archiveArtifacts artifacts: 'target/*.jar', fingerprint: true, onlyIfSuccessful: true
     }
+  }
+}
     stage('Deploy (simulado)') {
       steps {
         bat '''

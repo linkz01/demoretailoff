@@ -65,7 +65,6 @@
   </configuration>
 </plugin>
 
-
       <!-- SpotBugs -->
       <plugin>
         <groupId>com.github.spotbugs</groupId>
